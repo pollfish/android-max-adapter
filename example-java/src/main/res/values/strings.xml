@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">Android Max Adapter</string>
+
+    <!-- TODO: Replace with your keys -->
+    <string name="app_lovin_sdk_key">APP_LOVIN_SDK_KEY</string>
+    <string name="ad_unit_id">AD_UNIT_ID</string>
+</resources>
