@@ -9,8 +9,8 @@ android {
     defaultConfig {
         minSdk 16
         targetSdk 32
-        versionCode 1
-        versionName "6.2.2.0"
+        versionCode 2
+        versionName "6.2.3.0"
     }
 
     buildTypes {
@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    api 'com.pollfish:pollfish-googleplay:6.2.2'
+    api 'com.pollfish:pollfish-googleplay:6.2.3'
     api 'com.applovin:applovin-sdk:11.1.2'
 }
 
