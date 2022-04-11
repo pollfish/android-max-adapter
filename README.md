@@ -8,7 +8,12 @@ Max Mediation Adapter for Android apps looking to load and show Rewarded Surveys
 
 ## Step 1: Add Pollfish Max Adapter to your project
 
-Import Pollfish Max adapter **.aar** file as it can be found in the **pollfish-max-aar** folder, to your project libraries
+Download the following libraries
+
+* [Pollfish SDK](https://pollfish.com/docs/android/google-play)
+* [PollfishMaxAdapter](https://pollfish.com/docs/android-max-adapter)
+
+Import Pollfish AdMob Adapter and Pollfish SDK **.aar** libraries.
 
 If you are using Android Studio, right click on your project and select New Module. Then select Import .JAR or .AAR Package option and from the file browser locate Pollfish Max Adapter aar file. Right click again on your project and in the Module Dependencies tab choose to add Pollfish module that you recently added, as a dependency.
 
@@ -20,15 +25,13 @@ Retrieve Pollfish through **mavenCentral()** with gradle by adding the following
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-max:6.2.2.0'
+    implementation 'com.pollfish.mediation:pollfish-max:6.2.4.0'
 }
 ```
 
 <br/>
 
 ## Step 2: Request for a RewardedAd
-
-<br/>
 
 Import the following packages
 
@@ -201,20 +204,12 @@ Pollfish Max Adapter provides different options that you can use to control the 
 
 <br/>
 
-```kotlin
-rewardedAd = MaxRewardedAd.getInstance("25aa38dc0445505f", this)
-rewardedAd.setLocalExtraParameter("release_mode", false)
-rewardedAd.setLocalExtraParameter("offerwall_mode", true)
-rewardedAd.setLocalExtraParameter("api_key", "YOUR_POLLFISH_API_KEY")
-rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID")
-```
-
 | No  | Description |
 | --- | ----------------------------------- |
 | 3.1 | **`api_key`** <br/> Sets Pollfish SDK API key as provided by Pollfish                                                                            |
 | 3.2 | **`request_uuid`** <br/> Sets a unique identifier to identify a user and be passed through to [s2s callbacks](https://www.pollfish.com/docs/s2s) |
 | 3.3 | **`release_mode`** <br/> Toggles Pollfish SDK Developer or Release mode                                                                          |
-| 3.4 | **`offerwallMode`** <br/> Sets Pollfish SDK to Offerwall Mode                                                                                    |
+| 3.4 | **`offerwall_mode`** <br/> Sets Pollfish SDK to Offerwall Mode                                                                                    |
 
 <br/>
 
@@ -251,6 +246,20 @@ Enables offerwall mode. If not set, one single survey is shown each time.
 
 <br/>
 
+Below you can see all the available configuration options for Pollfish Max Adapter.
+
+<br/>
+
+```kotlin
+rewardedAd = MaxRewardedAd.getInstance("25aa38dc0445505f", this)
+rewardedAd.setLocalExtraParameter("release_mode", false)
+rewardedAd.setLocalExtraParameter("offerwall_mode", true)
+rewardedAd.setLocalExtraParameter("api_key", "YOUR_POLLFISH_API_KEY")
+rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID")
+```
+
+<br/>
+
 ## Step 4: Publish
 
 If you everything worked fine during the previous steps, you should turn Pollfish to release mode and publish your app.
@@ -258,3 +267,13 @@ If you everything worked fine during the previous steps, you should turn Pollfis
 > **Note:** After you take your app live, you should request your account to get verified through Pollfish Dashboard in the App Settings area.
 
 > **Note:** There is an option to show **Standalone Demographic Questions** needed for Pollfish to target users with surveys even when no actually surveys are available. Those surveys do not deliver any revenue to the publisher (but they can increase fill rate) and therefore if you do not want to show such surveys in the Waterfall you should visit your **App Settings** are and disable that option.
+
+<br/>
+
+# More info
+
+You can read more info on how the Pollfish SDKs work or how to get started with AppLovin's Max at the following links:
+
+[Pollfish Android SDK](https://pollfish.com/docs/android/google-play)
+
+[AppLovin Max Android SDK](https://dash.applovin.com/documentation/mediation/android/getting-started/integration)

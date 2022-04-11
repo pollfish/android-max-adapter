@@ -17,7 +17,7 @@ data class PollfishMaxAdapterInfo(
 
     companion object {
         fun fromParams(parameters: MaxAdapterResponseParameters): PollfishMaxAdapterInfo? {
-            val remoteParams = parameters.serverParameters["custom_parameters"] as? Bundle
+            val remoteParams = parameters.serverParameters[PollfishConstants.REMOTE_PARAMS_KEY] as? Bundle
 
             val apiKey =
                 (parameters.localExtraParameters[PollfishConstants.POLLFISH_API_KEY_EXTRA_PARAM_KEY] as? String)
