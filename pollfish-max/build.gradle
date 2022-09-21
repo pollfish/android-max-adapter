@@ -4,13 +4,13 @@ plugins {
 }
 
 android {
-    compileSdk 32
+    compileSdk 33
 
     defaultConfig {
         minSdk 16
-        targetSdk 32
+        targetSdk 33
         versionCode 3
-        versionName "6.2.5.0"
+        versionName "6.3.0.0"
     }
 
     buildTypes {
@@ -36,7 +36,7 @@ android {
 }
 
 dependencies {
-    api 'com.pollfish:pollfish-googleplay:6.2.5'
+    api 'com.pollfish:pollfish-googleplay:6.3.0'
     api 'com.applovin:applovin-sdk:11.1.2'
 }
 
