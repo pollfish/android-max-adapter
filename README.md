@@ -25,7 +25,7 @@ Retrieve Pollfish through **mavenCentral()** with gradle by adding the following
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-max:6.3.1.0'
+    implementation 'com.pollfish.mediation:pollfish-max:6.3.2.0'
 }
 ```
 
