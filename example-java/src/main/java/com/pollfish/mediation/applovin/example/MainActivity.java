@@ -39,10 +39,11 @@ public class MainActivity extends AppCompatActivity implements MaxRewardedAdList
 
             // Optional parameters, if have already been set in the AppLovin dashboard
             // In case you've already set them in the Dashboard, params in code will override the ones you've already set
-            rewardedAd.setLocalExtraParameter("release_mode", false);
-            rewardedAd.setLocalExtraParameter("offerwall_mode", true);
-            rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID");
             rewardedAd.setLocalExtraParameter("api_key", "YOUR_API_KEY");
+            rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID");
+            rewardedAd.setLocalExtraParameter("release_mode", false);
+            rewardedAd.setLocalExtraParameter("user_id", "USER_ID");
+
             rewardedAd.setListener(this);
 
             loadRewardedAd();

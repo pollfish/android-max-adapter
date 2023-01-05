@@ -85,11 +85,11 @@ public class PollfishMediationAdapter(sdk: AppLovinSdk) : MediationAdapterBase(s
                     (adapterInfo.requestUUID?.let {
                         this.requestUUID(it)
                     })
-                    (adapterInfo.offerwallMode?.let {
-                        this.offerwallMode(it)
-                    })
                     (adapterInfo.releaseMode?.let {
                         this.releaseMode(it)
+                    })
+                    (adapterInfo.userId?.let {
+                        this.userId(it)
                     })
                 }
                 .rewardMode(true)

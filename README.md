@@ -25,7 +25,7 @@ Retrieve Pollfish through **mavenCentral()** with gradle by adding the following
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-max:6.3.3.0'
+    implementation 'com.pollfish.mediation:pollfish-max:6.3.3.1'
 }
 ```
 
@@ -200,16 +200,16 @@ if (rewardedAd.isReady()) {
 
 ## Step 3: Use and control Pollfish Max Adapter in your Rewarded Ad Unit
 
-Pollfish Max Adapter provides different options that you can use to control the behaviour of Pollfish SDK. This configuration, if applied, will override any configuration done in AppLovin's dashboard.
+Pollfish Max Adapter provides different options that you can use to control the behaviour of Pollfish SDK. This configuration, if applied, will override any configuration done in AppLovin's dashboard (where applicable).
 
 <br/>
 
-| No  | Description |
-| --- | ----------------------------------- |
-| 3.1 | **`api_key`** <br/> Sets Pollfish SDK API key as provided by Pollfish                                                                            |
-| 3.2 | **`request_uuid`** <br/> Sets a unique identifier to identify a user and be passed through to [s2s callbacks](https://www.pollfish.com/docs/s2s) |
-| 3.3 | **`release_mode`** <br/> Toggles Pollfish SDK Developer or Release mode                                                                          |
-| 3.4 | **`offerwall_mode`** <br/> Sets Pollfish SDK to Offerwall Mode                                                                                    |
+| No  | Configuration  | Description                                                                                                                                      |
+|-----|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
+| 3.1 | Dashboard/Code | **`api_key`** <br/> Sets Pollfish SDK API key as provided by Pollfish                                                                            |
+| 3.2 | Dashboard/Code | **`request_uuid`** <br/> Sets a unique identifier to identify a user and be passed through to [s2s callbacks](https://www.pollfish.com/docs/s2s) |
+| 3.3 | Dashboard/Code | **`release_mode`** <br/> Toggles Pollfish SDK Developer or Release mode                                                                          |
+| 3.4 | Code           | **`user_id`** <br/> Sets a unique identifier to identify a user                                                                                  |
 
 <br/>
 
@@ -240,9 +240,13 @@ Pollfish Max Adapter runs Pollfish SDK in release mode by default. If you would 
 
 <br/>
 
-### 3.4 `offerwall_mode`
+### 3.4 `user_id`
 
-Enables offerwall mode. If not set, one single survey is shown each time.
+An optional id used to identify a user
+
+Setting the `userId` will override the default behaviour and use that instead of the Advertising Id in order to identify a user
+
+<span style="color: red">You can pass the id of a user as identified on your system. Pollfish will use this id to identify the user across sessions instead of an ad id/idfa as advised by the stores. You are solely responsible for aligning with store regulations by providing this id and getting relevant consent by the user when necessary. Pollfish takes no responsibility for the usage of this id. In any request from your users on resetting/deleting this id and/or profile created, you should be solely liable for those requests.</span>
 
 <br/>
 
@@ -251,11 +255,11 @@ Below you can see all the available configuration options for Pollfish Max Adapt
 <br/>
 
 ```kotlin
-rewardedAd = MaxRewardedAd.getInstance("25aa38dc0445505f", this)
-rewardedAd.setLocalExtraParameter("release_mode", false)
-rewardedAd.setLocalExtraParameter("offerwall_mode", true)
-rewardedAd.setLocalExtraParameter("api_key", "YOUR_POLLFISH_API_KEY")
+rewardedAd = MaxRewardedAd.getInstance("AD_UNIT_ID", this)
+rewardedAd.setLocalExtraParameter("api_key", "YOUR_API_KEY")
 rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID")
+rewardedAd.setLocalExtraParameter("release_mode", true)
+rewardedAd.setLocalExtraParameter("user_id", "USER_ID")
 ```
 
 <br/>
