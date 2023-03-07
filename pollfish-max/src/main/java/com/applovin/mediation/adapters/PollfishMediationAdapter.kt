@@ -14,6 +14,7 @@ import com.applovin.sdk.AppLovinSdk
 import com.pollfish.Pollfish
 import com.pollfish.builder.Params
 import com.pollfish.builder.Platform
+import com.pollfish.builder.SurveyFormat
 import com.pollfish.callback.*
 
 public class PollfishMediationAdapter(sdk: AppLovinSdk) : MediationAdapterBase(sdk),
@@ -90,6 +91,11 @@ public class PollfishMediationAdapter(sdk: AppLovinSdk) : MediationAdapterBase(s
                     })
                     (adapterInfo.userId?.let {
                         this.userId(it)
+                    })
+                    (adapterInfo.surveyFormat?.let { id ->
+                        SurveyFormat.values().getOrNull(id)?.let {
+                            this.surveyFormat(it)
+                        }
                     })
                 }
                 .rewardMode(true)

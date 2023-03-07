@@ -40,7 +40,7 @@ class MainActivity : AppCompatActivity(), MaxRewardedAdListener {
             rewardedAd.setLocalExtraParameter("api_key", "YOUR_API_KEY")
             rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID")
             rewardedAd.setLocalExtraParameter("release_mode", false)
-            rewardedAd.setLocalExtraParameter("user_id", "")
+            rewardedAd.setLocalExtraParameter("user_id", "USER_ID")
 
             rewardedAd.setListener(this)
 

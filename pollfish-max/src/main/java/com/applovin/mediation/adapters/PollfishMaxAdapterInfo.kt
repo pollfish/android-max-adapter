@@ -8,11 +8,12 @@ data class PollfishMaxAdapterInfo(
     val apiKey: String,
     val releaseMode: Boolean?,
     val requestUUID: String?,
-    val userId: String?
+    val userId: String?,
+    val surveyFormat: Int?
 ) {
 
     override fun toString(): String =
-        "{api_key: $apiKey, release_mode: $releaseMode, request_mode: $requestUUID}"
+        "{api_key: $apiKey, release_mode: $releaseMode, request_mode: $requestUUID, survey_format: $surveyFormat}"
 
     companion object {
         fun fromParams(parameters: MaxAdapterResponseParameters): PollfishMaxAdapterInfo? {
@@ -35,6 +36,12 @@ data class PollfishMaxAdapterInfo(
                 (parameters.localExtraParameters[PollfishConstants.POLLFISH_REQUEST_UUID_EXTRA_PARAM_KEY] as? String
                     ?: remoteParams?.getString(PollfishConstants.POLLFISH_REQUEST_UUID_EXTRA_PARAM_KEY))?.let { it.ifBlank { null } }
 
+            val surveyFormat =
+                (parameters.localExtraParameters[PollfishConstants.POLLFISH_SURVEY_FORMAT_EXTRA_PARAM_KEY] as? Int
+                    ?: remoteParams?.getInt(PollfishConstants.POLLFISH_SURVEY_FORMAT_EXTRA_PARAM_KEY))?.let {
+                    if (it in 0..4) it else null
+                }
+
             val userId =
                 (parameters.localExtraParameters[PollfishConstants.POLLFISH_USER_ID_EXTRA_PARAM] as? String)?.let {
                     it.ifBlank { null }
@@ -42,7 +49,7 @@ data class PollfishMaxAdapterInfo(
 
             return apiKey?.let {
                 PollfishMaxAdapterInfo(
-                    apiKey, releaseMode, requestUUID, userId
+                    apiKey, releaseMode, requestUUID, userId, surveyFormat
                 ).apply {
                     if (DEBUG)
                         Log.v(
