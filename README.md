@@ -1,37 +1,24 @@
-# Pollfish Android Max Mediation Adapter
+# Prodege Android Max Mediation Adapter
 
-Max Mediation Adapter for Android apps looking to load and show Rewarded Surveys from Pollfish in the same waterfall with other Rewarded Ads.
+Max Mediation Adapter for Android apps looking to load and show Rewarded Ads from Prodege in the same waterfall with other Rewarded Ads.
 
 > **Note:** A detailed step by step guide is provided on how to integrate can be found [here](https://www.pollfish.com/docs/android-max-adapter)
 
 <br/>
 
-## Step 1: Add Pollfish Max Adapter to your project
+## Add Prodege Max Adapter to your project
 
-Download the following libraries
-
-* [Pollfish SDK](https://pollfish.com/docs/android/google-play)
-* [PollfishMaxAdapter](https://pollfish.com/docs/android-max-adapter)
-
-Import Pollfish AdMob Adapter and Pollfish SDK **.aar** libraries.
-
-If you are using Android Studio, right click on your project and select New Module. Then select Import .JAR or .AAR Package option and from the file browser locate Pollfish Max Adapter aar file. Right click again on your project and in the Module Dependencies tab choose to add Pollfish module that you recently added, as a dependency.
-
-**OR**
-
-#### **Retrieve Pollfish Max Adapter through mavenCentral()**
-
-Retrieve Pollfish through **mavenCentral()** with gradle by adding the following line in your project **build.gradle** (not the top level one, the one under 'app') in dependencies section:
+Retrieve Prodege Max Adapter through **maven()** with gradle by adding the following line in your app's module **build.gradle** file:
 
 ```groovy
 dependencies {
-    implementation 'com.pollfish.mediation:pollfish-max:6.4.0.0'
+    implementation 'com.pollfish.mediation:prodege-max:7.0.0-beta01.0'
 }
 ```
 
 <br/>
 
-## Step 2: Request for a RewardedAd
+## Request for a RewardedAd
 
 Import the following packages
 
@@ -61,7 +48,7 @@ Initialize AppLovin SDK by calling the `initializeSdk()` method, passing that me
 
 ```kotlin
 override fun onCreate(savedInstanceState: Bundle?) {
-    ...
+    // ...
 
     AppLovinSdk.getInstance(this).mediationProvider = AppLovinMediationProvider.MAX
 
@@ -75,7 +62,7 @@ override fun onCreate(savedInstanceState: Bundle?) {
 
 ```java
 protected void onCreate(Bundle savedInstanceState) {
-    ...
+    // ...
 
     AppLovinSdk.getInstance(this).setMediationProvider(AppLovinMediationProvider.MAX);
 
@@ -89,11 +76,7 @@ protected void onCreate(Bundle savedInstanceState) {
 
 Implement `MaxRewardedAdListener` so that you are notified when your ad is ready and of other ad-related events.
 
-<br/>
-
-Request a RewardedAd from AppLovin by calling `loadAd()` in the `RewardedAd` object instance you've created.
-
-<br/>
+Request a RewardedAd from AppLovin by calling `loadAd()` in the `RewardedAd` object instance you've created. By default Prodege Max Adapter will use the configuration as provided on AppLovin's dashboard (section 2). If no configuration is provided or if you want to override any of those params please see section 6.
 
 <span style="text-decoration:underline">Kotlin</span>
 
@@ -102,7 +85,7 @@ class MainActivity : AppCompatActivity(), MaxRewardedAdListener {
 
     private lateinit var rewardedAd: RewardedAd
 
-    ...
+    // ...
 
     private fun createRewardedAd() {
         rewardedAd = MaxRewardedAd.getInstance("AD_UNIT_ID", this);
@@ -113,7 +96,7 @@ class MainActivity : AppCompatActivity(), MaxRewardedAdListener {
     private fun loadRewardedAd() {
         rewardedAd.loadAd()
     }
-    
+
     override fun onAdLoaded(ad: MaxAd?) {}
 
     override fun onAdDisplayed(ad: MaxAd?) {}
@@ -142,7 +125,7 @@ class MainActivity extends AppCompatActivity implements MaxRewardedAdListener {
 
     private RewardedAd rewardedAd;
 
-    ...
+    // ...
 
     private void createRewardedAd() {
         rewardedAd = MaxRewardedAd.getInstance("AD_UNIT_ID", this);
@@ -198,86 +181,260 @@ if (rewardedAd.isReady()) {
 }
 ```
 
-## Step 3: Use and control Pollfish Max Adapter in your Rewarded Ad Unit
+<br/>
 
-Pollfish Max Adapter provides different options that you can use to control the behaviour of Pollfish SDK. This configuration, if applied, will override any configuration done in AppLovin's dashboard (where applicable).
+## Configure the Prodege SDK programmatically
+
+Prodege Max Adapter provides different options that you can use to control the behaviour of Prodege SDK. This configuration, if applied, will override any configuration done in AppLovin's dashboard.
 
 <br/>
 
-| No    | Configuration  | Description                                                                                                                                      |
-|-------|----------------|--------------------------------------------------------------------------------------------------------------------------------------------------|
-| 3.1   | Dashboard/Code | **`api_key`** <br/> Sets Pollfish SDK API key as provided by Pollfish                                                                            |
-| 3.2   | Dashboard/Code | **`request_uuid`** <br/> Sets a unique identifier to identify a user and be passed through to [s2s callbacks](https://www.pollfish.com/docs/s2s) |
-| 3.3   | Dashboard/Code | **`release_mode`** <br/> Toggles Pollfish SDK Developer or Release mode                                                                          |
-| 3.4   | Code           | **`user_id`** <br/> Sets a unique identifier to identify a user                                                                                  |
+### **6.1. Initialization configuration**
+
+Below you can see all the availbale options for configuring Prodege SDK prior to the AppLovin SDK initialization.
 
 <br/>
 
-### 3.1 `api_key`
+### 6.1.1. `userIdentifier`
 
-Pollfish API Key as provided by Pollfish on [Pollfish Dashboard](https://www.pollfish.com/publisher/) after you sign in and create an app. If you have already specified Pollfish API Key on AppLovin's UI, this param will override the one defined on Web UI.
+An optional id used to identify a user.
 
-<br/>
+Setting the AppLovin's `userIdentifier` will override the default behaviour and use that instead of the Advertising Id in order to identify a user.
 
-### 3.2 `request_uuid`
+> **Note:** <span style="color: red">You can pass the id of a user as identified on your system. Prodege will use this id to identify the user across sessions instead of an ad id/idfa as advised by the stores. You are solely responsible for aligning with store regulations by providing this id and getting relevant consent by the user when necessary. Prodege takes no responsibility for the usage of this id. In any request from your users on resetting/deleting this id and/or profile created, you should be solely liable for those requests.</span>
 
-Sets a unique id to identify a user and be passed through s2s callbacks upon survey completion.
-
-In order to register for such callbacks you can set up your server URL on your app's page on Pollfish Developer Dashboard. On each survey completion you will receive a callback to your server including the `request_uuid` param passed.
-
-If you would like to read more on Pollfish s2s callbacks you can read the documentation [here](https://www.pollfish.com/docs/s2s)
-
-<br/>
-
-### 3.3 `release_mode`
-
-Sets Pollfish SDK to Developer or Release mode.
-
-- **Developer mode** is used to show to the developer how Pollfish surveys will be shown through an app (useful during development and testing).
-- **Release mode** is the mode to be used for a released app in any app store (start receiving paid surveys).
-
-Pollfish Max Adapter runs Pollfish SDK in release mode by default. If you would like to test with Test survey, you should set release mode to fasle.
-
-<br/>
-
-### 3.4 `user_id`
-
-An optional id used to identify a user
-
-Setting the `userId` will override the default behaviour and use that instead of the Advertising Id in order to identify a user
-
-<span style="color: red">You can pass the id of a user as identified on your system. Pollfish will use this id to identify the user across sessions instead of an ad id/idfa as advised by the stores. You are solely responsible for aligning with store regulations by providing this id and getting relevant consent by the user when necessary. Pollfish takes no responsibility for the usage of this id. In any request from your users on resetting/deleting this id and/or profile created, you should be solely liable for those requests.</span>
-
-<br/>
-
-Below you can see all the available configuration options for Pollfish Max Adapter.
-
-<br/>
+<span style="text-decoration:underline">Kotlin</span>
 
 ```kotlin
-rewardedAd = MaxRewardedAd.getInstance("AD_UNIT_ID", this)
-rewardedAd.setLocalExtraParameter("api_key", "YOUR_API_KEY")
-rewardedAd.setLocalExtraParameter("request_uuid", "REQUEST_UUID")
-rewardedAd.setLocalExtraParameter("release_mode", true)
-rewardedAd.setLocalExtraParameter("user_id", "USER_ID")
+AppLovinSdk.getInstance(this).userIdentifier = "MY_USER_ID"
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+AppLovinSdk.getInstance(this).setUserIdentifier("MY_USER_ID");
 ```
 
 <br/>
 
-## Step 4: Publish
+### 6.1.2. `testMode`
 
-If you everything worked fine during the previous steps, you should turn Pollfish to release mode and publish your app.
+Toggles the Prodege SDK Test mode.
 
-> **Note:** After you take your app live, you should request your account to get verified through Pollfish Dashboard in the App Settings area.
+- **`true`** is used to show to the developer how Prodege ads will be shown through an app (useful during development and testing).
+- **`false`** is the mode to be used for a released app in any app store (start receiving paid surveys).
 
-> **Note:** There is an option to show **Standalone Demographic Questions** needed for Pollfish to target users with surveys even when no actually surveys are available. Those surveys do not deliver any revenue to the publisher (but they can increase fill rate) and therefore if you do not want to show such surveys in the Waterfall you should visit your **App Settings** are and disable that option.
+If you have already specified the preferred mute state on AppLovin's UI, this will override the one defined on Web UI.
+
+Prodege Max Adapter respects the AppLovin's SDK test mode state by default. If you would like to test Prodege ads, while AppLovin SDK is in live mode.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+AppLovinSdk.getInstance(this).settings.setExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_TEST_MODE,
+    "true"
+)
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+AppLovinSdk.getInstance(this).getSettings().setExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_TEST_MODE, 
+    "true"
+);
+```
+
+<br/>
+
+### 6.1.3. `muted`
+
+You can set globally the video mute state for both AppLovin and Prodege.
+
+If you have already specified the preferred mute state on AppLovin's UI, this will override the one defined on Web UI.
+
+Prodege Max Adapter respects the AppLovin's SDK mute state by default.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+AppLovinSdk.getInstance(this).settings.isMuted = true
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+AppLovinSdk.getInstance(this).getSettings().setMuted(true);
+```
+
+<br/>
+
+After configuring the Prodege Max Adapter you can proceed with the AppLovin SDK initialization.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+AppLovinSdk.getInstance(this).initializeSdk {
+    // ...
+}
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+AppLovinSdk.getInstance(this).initializeSdk(config -> {
+    // ...
+});
+```
+
+<br/>
+
+### **6.2. Rewarded Ad configuration**
+
+Below you can see all the supported options for configuring your `MaxRewardedAd` intance.
+
+Start by gettings a `MaxRewardedAd` by calling:.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+``` kotlin
+val rewardedAd = MaxRewardedAd.getInstance(...);
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+MaxRewardedAd rewardedAd = MaxRewardedAd.getInstance(...);
+```
+
+<br/>
+
+### 6.2.1. `placementId`
+
+Your ad unit's placement id as provided by [Publisher Dashboard](https://www.pollfish.com/publisher/).
+
+If you have already specified a placement id on AppLovin's UI, this param will override the one defined on Web UI.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_PLACEMENT_ID,
+    "PLACEMENT_ID"
+)
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_PLACEMENT_ID, 
+    "PLACEMENT_ID"
+);
+```
+
+<br/>
+
+### 6.2.2. `requestUuid`
+
+Sets a pass-through param to be received via the server-to-server callbacks
+
+In order to register for such callbacks you can set up your server URL on your app's page on the [Publisher Dashboard](https://www.pollfish.com/publisher/). On each survey completion you will receive a callback to your server including the `request_uuid` param passed.
+
+If you would like to read more on Prodege s2s callbacks you can read the documentation [here](https://www.pollfish.com/docs/s2s)
+
+If you have already specified a placement id on AppLovin's UI, this will override the one defined on Web UI.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_REQUEST_UUID,
+    "REQUEST_UUID"
+)
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_REQUEST_UUID,
+    "REQUEST_UUID"
+)
+```
+
+<br/>
+
+### 6.2.3 `muted`
+
+Sets Prodege video ads mute state.
+
+If you have already specified the preferred mute state on AppLovin's UI or by setting the global AppLovin SDK mute state, this will override any of the previous configurations.
+
+Prodege Max Adapter respects the AppLovin's SDK mute state by default. If you would like to toggle the mute state only for Prodege ads:
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_MUTED, 
+    false
+)
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+rewardedAd.setLocalExtraParameter(
+    ProdegeMediationAdapter.LOCAL_EXTRA_REQUEST_UUID,
+    "REQUEST_UUID"
+)
+```
+
+<br/>
+
+Finally, after configuring your rewarded ad.
+
+<span style="text-decoration:underline">Kotlin</span>
+
+```kotlin
+rewardedAd.loadAd()
+```
+
+<span style="text-decoration:underline">Java</span>
+
+```java
+rewardedAd.loadAd();
+```
+
+<br/>
+
+## Proguard
+
+If you use proguard with your app, please insert the following lines in your proguard configuration file:
+
+```java
+-dontwarn com.prodege.**
+-keep class com.prodege.** { *; }
+```
+
+<br/>
+
+## Publish
+
+If everything worked fine during the previous steps, you are ready to proceed with publishing your app.
+
+> **Note:** After you take your app live, you should request your account to get verified through the [Publisher Dashboard](https://www.pollfish.com/publisher/) in the App Settings area.
+
+> **Note:** There is an option to show **Standalone Demographic Questions** needed for Prodege to target users with surveys even when no actually surveys are available. Those surveys do not deliver any revenue to the publisher (but they can increase fill rate) and therefore if you do not want to show such surveys in the Waterfall you should visit your **App Settings** are and disable that option. You can read more [here](https://www.pollfish.com/docs/demographic-surveys).
 
 <br/>
 
 # More info
 
-You can read more info on how the Pollfish SDKs work or how to get started with AppLovin's Max at the following links:
+You can read more info on how the Prodege SDKs work or how to get started with AppLovin's Max at the following links:
 
-[Pollfish Android SDK](https://pollfish.com/docs/android/google-play)
+[Prodege Android SDK](https://pollfish.com/docs/android)
 
 [AppLovin Max Android SDK](https://dash.applovin.com/documentation/mediation/android/getting-started/integration)
