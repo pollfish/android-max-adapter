@@ -16,5 +16,5 @@ dependencyResolutionManagement {
 }
 rootProject.name = "android-max-adapter"
 include ':example-kotlin'
-include ':pollfish-max'
+include ':prodege-max'
 include ':example-java'

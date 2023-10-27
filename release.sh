@@ -5,7 +5,7 @@ publish_only=false
 while test $# -gt 0; do
     case "$1" in
         -h|--help)
-            echo "release - Release Pollfish Max Android Adapter"
+            echo "release - Release Prodege Max Android Adapter"
             echo " "
             echo "release [options]"
             echo " "
@@ -45,9 +45,9 @@ if [ "$publish_only" = false ] ; then
         exit 1
     fi
 
-    # Build Pollfish Max Adapter 
+    # Build Prodege Max Adapter
 
-    if ./gradlew :pollfish-max:build; then
+    if ./gradlew :prodege-max:build; then
         echo "Build task succeeded"
     else
         echo "Build task failed"
@@ -56,7 +56,7 @@ if [ "$publish_only" = false ] ; then
 
     # Package public distribution .zip files
 
-    if ./gradlew :pollfish-max:packageDistributions; then
+    if ./gradlew :prodege-max:packageDistributions; then
         echo "Packing Distributions succeeded"
     else
         echo "Packing Distributions failed"
@@ -69,16 +69,16 @@ fi
 
 if [ "$no_publish" = false ] ; then
 
-    # Upload Pollfish Max Adapter aar to Sonatype repository
+    # Upload Prodege Max Adapter aar to Sonatype repository
 
-    if ./gradlew :pollfish-max:publishAllPublicationsToSonatypeRepository; then
+    if ./gradlew :prodege-max:publishAllPublicationsToSonatypeRepository; then
         echo "Upload to Sonatype tak succeeded"
     else 
         echo "Upload to Sonatype task failed"
         exit 1
     fi
 
-    for entry in pollfish-max/build/dist/public/*
+    for entry in prodege-max/build/dist/public/*
     do
         file_name="${entry##*/}"
         slashed_entry="${entry// /\\ }"
