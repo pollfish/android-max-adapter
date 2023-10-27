@@ -38,7 +38,7 @@ android {
 }
 
 dependencies {
-    implementation "com.pollfish:prodege:${rootProject.prodegeSdkVersion}"
+    implementation "com.prodege:prodege:${rootProject.prodegeSdkVersion}"
     implementation "com.applovin:applovin-sdk:${rootProject.appLovinSdkVersion}"
 }
 
