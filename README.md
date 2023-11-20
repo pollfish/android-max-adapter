@@ -12,7 +12,7 @@ Retrieve Prodege Max Adapter through **maven()** with gradle by adding the follo
 
 ```groovy
 dependencies {
-    implementation 'com.prodege.mediation:prodege-max:7.0.0-beta01.0'
+    implementation 'com.prodege.mediation:prodege-max:7.0.0-beta02.0'
 }
 ```
 
