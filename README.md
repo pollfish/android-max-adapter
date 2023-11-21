@@ -12,7 +12,7 @@ Retrieve Prodege Max Adapter through **maven()** with gradle by adding the follo
 
 ```groovy
 dependencies {
-    implementation 'com.prodege.mediation:prodege-max:7.0.0-beta02.0'
+    implementation 'com.prodege.mediation:prodege-max:7.0.0-beta03.0'
 }
 ```
 
@@ -435,6 +435,6 @@ If everything worked fine during the previous steps, you are ready to proceed wi
 
 You can read more info on how the Prodege SDKs work or how to get started with AppLovin's Max at the following links:
 
-[Prodege Android SDK](https://pollfish.com/docs/android)
+[Prodege Android SDK](https://pollfish.com/docs/android-v7)
 
 [AppLovin Max Android SDK](https://dash.applovin.com/documentation/mediation/android/getting-started/integration)
