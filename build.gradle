@@ -11,8 +11,8 @@ tasks.register('clean', Delete) {
 }
 
 ext {
-    prodegeSdkVersion = "7.0.0-beta05"
-    adapterVersionCode = 13
+    prodegeSdkVersion = "7.0.0-beta06"
+    adapterVersionCode = 14
     adapterVersionName = "${prodegeSdkVersion}.0"
     appLovinSdkVersion = "11.11.3"
 }
